@@ -1,14 +1,23 @@
 const express = require("express");
 const app = express();
+// require
 const mongoose = require("mongoose");
 
+// connecting function for local mongodb
 async function main() {
   await mongoose.connect("mongodb://localhost:27017/project");
 }
-main().then(() => {
-  console.log("db connected");
-});
 
+// calling
+main()
+  .then(() => {
+    console.log("db connected");
+  })
+  .catch((e) => {
+    console.log("error", e);
+  });
+
+// user schema for db
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -20,6 +29,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// creating model
 const User = mongoose.model("User", userSchema);
 
 app.get("/", (req, res) => {
